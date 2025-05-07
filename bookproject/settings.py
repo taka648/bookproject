@@ -1,3 +1,4 @@
+import dj_dacabase_url # リスト1:コード追加
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,9 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_qee(jw@dpb(&p!e6yzqm$hc6rw)q^o$&*oy$zjlbn#grj5v6r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False         # リスト2:コード追加
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # リスト2:コード追加
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -72,6 +75,17 @@ DATABASES = {
 }
 
 
+if not DEBUG: # リスト1:コード追加
+  DATABASES = {
+    'default': dj_database_url.config(
+      # Replace this value with your local database's connection string.
+      default = 'postgresql://postgres:postgres@localhost:5432/bookproject',
+      conn_max_age=600
+    )
+  }
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -107,6 +121,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+if not DEBUG:  # リスト3:コード追加
+  STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+  STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
+
 # 画像ファイルを保存する場所を指定する。リスト3:コード追加
 MEDIA_URL = '/media/'
 # MEDIA_URL = '/image/' # リスト5:コード変更
@@ -121,3 +140,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # LOGIN_REDIRECT_URL = 'list-book' # リスト3:コード追加
 LOGIN_REDIRECT_URL = 'index' # リスト6:コード修正
 LOGOUT_REDIRECT_URL = 'index' # リスト6:コード追加
+
