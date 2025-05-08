@@ -1,4 +1,6 @@
-import dj_dacabase_url # リスト1:コード追加
+import os # リスト8:コード追加
+import dj_database_url # リスト1:コード追加
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -9,7 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_qee(jw@dpb(&p!e6yzqm$hc6rw)q^o$&*oy$zjlbn#grj5v6r'
+# SECRET_KEY = 'django-insecure-_qee(jw@dpb(&p!e6yzqm$hc6rw)q^o$&*oy$zjlbn#grj5v6r'
+SECRET_KEY = os.environ.get('SECRET_KEY') # リスト8:コード追加
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
